@@ -1,6 +1,5 @@
 module ValidateCC where
 
-
 --toDigits should convert positive Integers to a list of digits. (For 0 or
 --negative inputs, toDigits should return the empty list.) toDigitsRev
 --should do the same, but with the digits reversed.
@@ -20,4 +19,14 @@ toDigits n = reverse (toDigitsRev n)
 --[1,3,8,6] becomes [2,3,16,6].
 
 doubleEveryOther :: [Integer] -> [Integer]
+doubleEveryOther [] = []
+doubleEveryOther (n:x:ns) 
+    | length(n:x:ns) `mod` 2 == 0 = n : (x*2) : [] ++ doubleEveryOther (ns)
+    | otherwise =  doubleEveryOther((n:x:ns) ++ [0])
 
+sumDigits :: [Integer] -> Integer
+sumDigits [] = 0
+sumDigits (n:ns) = sum (toDigitsRev n) + (sumDigits (ns))
+
+validate :: Integer -> Bool
+validate = (== 0) . (`mod` 10) . sumDigits . doubleEveryOther . toDigitsRev
